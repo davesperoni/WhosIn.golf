@@ -1,0 +1,198 @@
+﻿@inherits AddTeeTimeCode
+@page "/AddTeeTime"
+
+<DisplayMsg ErrorMessage=@BaseErrorMessage InfoMessage=@BaseInfoMessage SecretErrorDetails=@BaseSecretErrorDetails></DisplayMsg>
+@*  *@
+
+
+
+<EditForm Model=@TT OnValidSubmit="HandleValidSubmit">
+    <DataAnnotationsValidator />
+
+    <table border="1">
+
+        <tr>
+            <td width="30%">   </td>
+            <td width="70%">   </td>
+        </tr>
+
+        <tr>
+            <td></td>
+            <td class="StyleTitle1" align="left"> Add TeeTime<br />&nbsp;</td>
+        </tr>
+
+        <tr>
+            <td align="right">Group:&nbsp;</td>
+            <td>
+                <InputSelect @bind-Value="GroupGUIDSelected" Style="width:250px;padding-bottom:8px;margin-bottom:3px">
+
+                    @foreach (var gr in GroupList)
+                    {
+                        if (!gr.GroupShowAllGroups)
+                        {
+                            if (gr.GroupDefaultForNewTeeTime)
+                            {
+                                <option selected="selected" value=@gr.GroupGUID>@gr.GroupName</option>
+                            }
+                            else
+                            {
+                                <option value=@gr.GroupGUID>@gr.GroupName</option>
+                            }
+                        }
+
+                    }
+                </InputSelect>
+            </td>
+        </tr>
+
+        <tr>
+            <td align="right">Owner:&nbsp;</td>
+            <td>
+                <InputText @bind-Value=TT.Owner class="form-control" Style="width:250px" />
+            </td>
+        </tr>
+
+        <tr>
+            <td align="right">Location:&nbsp;</td>
+            <td>
+                <InputText @bind-Value="TT.Location" class="form-control" Style="width:250px" />
+            </td>
+        </tr>
+
+        <tr>
+            <td colspan="2">
+                <RadzenDatePicker Style="width:125px" @bind-Value="TT.TTDate" DateFormat="d" /> Date
+            </td>
+        </tr>
+
+        <tr>
+            <td colspan="2">
+                <RadzenDatePicker Style="width:125px" @bind-Value="TT.TTTime" ShowTime="true" TimeOnly="true" HourFormat="12" DateFormat="h:mm tt" /> Time
+            </td>
+        </tr>
+
+        <tr>
+
+            <td align="right">Comment:&nbsp;</td>
+            <td>
+                <RadzenTextArea Rows="3" @bind-Value="TT.OwnerComment" Style="width:250px;margin-top:8px" />
+            </td>
+
+        </tr>
+
+        <tr>
+            <td align="right">Player 1:&nbsp;</td>
+            <td>
+                <InputText @bind-Value="TT.Player1" class="form-control" Style="width:250px" />
+            </td>
+        </tr>
+
+        <tr>
+            <td align="right">Player 2:&nbsp;</td>
+            <td>
+                <InputText @bind-Value="TT.Player2" class="form-control" Style="width:250px" />
+            </td>
+        </tr>
+
+        <tr>
+            <td align="right">Player 3:&nbsp;</td>
+            <td>
+                <InputText @bind-Value="TT.Player3" class="form-control" Style="width:250px" />
+            </td>
+        </tr>
+
+        <tr>
+            <td align="right">Player 4:&nbsp;</td>
+            <td>
+                <InputText @bind-Value="TT.Player4" class="form-control" Style="width:250px" />
+            </td>
+        </tr>
+
+        <tr>
+            <td align="right">
+                <MatCheckbox @bind-Value="@TT.LockPlayer1"></MatCheckbox>
+            </td>
+            <td align="left">Lock Player 1&nbsp;</td>
+        </tr>
+
+        <tr>
+            <td align="right">
+                <MatCheckbox @bind-Value="@TT.LockPlayer2"></MatCheckbox>
+            </td>
+            <td align="left">Lock Player 2&nbsp;</td>
+        </tr>
+
+        <tr>
+            <td align="right">
+                <MatCheckbox @bind-Value="@TT.LockPlayer3"></MatCheckbox>
+            </td>
+            <td align="left">Lock Player 3&nbsp;</td>
+        </tr>
+
+        <tr>
+            <td align="right">
+                <MatCheckbox @bind-Value="@TT.LockPlayer4"></MatCheckbox>
+            </td>
+            <td align="left">Lock Player 4&nbsp;</td>
+        </tr>
+
+
+
+
+        <tr>
+            <td align="right">
+                <MatCheckbox @bind-Value="@TT.HideMessages"></MatCheckbox>
+            </td>
+            <td align="left">Hide Messages&nbsp;</td>
+        </tr>
+
+        <tr>
+            <td align="right">
+                <MatCheckbox @bind-Value="@TT.LockMessages"></MatCheckbox>
+            </td>
+            <td align="left">Lock Messages:&nbsp;</td>
+        </tr>
+
+        <tr>
+            <td colspan="2" Style="color:red" align="center">@TT.ValidationFailMessage</td>
+        </tr>
+
+
+        <tr>
+            <td></td>
+            <td>
+                <MatButton Outlined="true" style="width:95px;height:35px;margin-left:10px;font-size:10pt;color:white;background-color:#f75c25" Icon="check" OnClick="HandleValidSubmit">Save</MatButton>
+                <MatButton Outlined="true" style="width:95px;height:35px;margin-left:10px;font-size:10pt;color:white;background-color:#6182a1" Icon="close2" OnClick="CancelForm">Cancel</MatButton>
+            </td>
+        </tr>
+
+
+        <tr>
+            <td>&nbsp;</td>
+            <td>&nbsp;</td>
+        </tr>
+
+        <tr>
+            <td>&nbsp;</td>
+            <td>&nbsp;</td>
+        </tr>
+
+        <tr>
+            <td>&nbsp;</td>
+            <td>&nbsp;</td>
+        </tr>
+
+    </table>
+
+</EditForm>
+
+
+
+
+
+
+
+
+
+
+

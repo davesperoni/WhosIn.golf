@@ -1,0 +1,39 @@
+﻿
+
+@if ((ErrorMessage != null) && (ErrorMessage.Trim().Length > 0))
+{
+    <div style="display:normal" class="alert alert-danger alert-dismissible" role="alert">
+        @*<button type="button" class="close" data-dismiss="alert" aria-label="Close"><span aria-hidden="true">&times;</span></button>*@
+        @((MarkupString)ErrorMessage)
+    </div>
+}
+
+@if ((InfoMessage != null) && (InfoMessage.Trim().Length > 0))
+{
+    <div style="display:normal" class="alert alert-success" role="alert">
+        @*<button type="button" class="close" data-dismiss="alert" aria-label="Close"><span aria-hidden="true">&times;</span></button>*@
+        @((MarkupString)InfoMessage)
+    </div>
+}
+
+@if ((SecretErrorDetails != null) && (SecretErrorDetails.Trim().Length > 0))
+{
+    <div style="display:normal" class="alert alert-danger" role="alert">
+        @*<button type="button" class="close" data-dismiss="alert" aria-label="Close"><span aria-hidden="true">&times;</span></button>*@
+        @((MarkupString)SecretErrorDetails)
+    </div>
+}
+
+
+
+
+@code {
+    [Parameter]
+    public string ErrorMessage { get; set; } = "";
+
+    [Parameter]
+    public string InfoMessage { get; set; } = "";
+
+    [Parameter]
+    public string SecretErrorDetails { get; set; } = "";
+}
