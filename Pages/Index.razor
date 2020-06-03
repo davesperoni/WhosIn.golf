@@ -1,36 +1,26 @@
 ﻿@page "/"
 @inherits IndexCode
 
-<div class = "container">
-    <div class = "row">
-        <div class = "col-xl-6">
-            <p class="pt-2">yo aha</p>
+    @if (@GroupList.Count != 1)
+    {
+
+<div class="container">
+    <div class="row">
+        <div class="col-6">
+            <h3>Group</h3>
         </div>
-        <div class = "col-xl-6">
-            <p>yo aha2asdf</p>
+        <div class="col-6">
+            <RadzenDropDown Style="width=100%" TValue="string" @bind-Value="@GroupGUIDSelectedMain" Data="@GroupList" TextProperty="GroupName" ValueProperty="GroupGUID" Change="@DropDownChanged" />
         </div>
     </div>
 </div>
-
-
-<table border="1">
-
-    @if (@GroupList.Count != 1)
-    {
-        <tr>
-            <td colspan="1" align="right">
-                Group:
-            </td>
-
-            <td colspan="2" align="left">
-                <RadzenDropDown Style="margin-left:3px;width:120px" TValue="string" @bind-Value="@GroupGUIDSelectedMain" Data="@GroupList" TextProperty="GroupName" ValueProperty="GroupGUID" Change="@DropDownChanged" />
-            </td>
-        </tr>
     }
-
-
-    <tr>
-        <td colspan="2" align="center">
+<div class="container">
+    <div class="row">
+       <MatButton class="btn-block button-new-tee my-3" OnClick="@(e => { GoToAddNew(); })">New Tee Time</MatButton>
+    </div>
+    <div class="row">
+        <div class="col-6">
             <h3>
                 @if (NumberOfTTs == 1)
                 {
@@ -41,48 +31,33 @@
                     <span>@NumberOfTTs.ToString() Tee Times</span>
                 }
             </h3>
-        </td>
-
-
-        <td Style="padding-right:10px" align="right">
-            <MatButton style="font-family:Tahoma;font-size:10pt" OnClick="@(e => { GoToAddNew(); })">New Tee Time</MatButton>
-        </td>
-    </tr>
-
-    <tr>
-        <td colspan="3" align="center">
-
-
-            <span Style="font-family:Tahoma;font-size:10pt">
-                <RadzenCheckBox @bind-Value="@ShowAllTeeTimes" TValue="bool" Change="@(args => OnShowAllChanged())" />
-                <span>&nbsp;&nbsp;Include previous and deleted tee times.</span>
-            </span>
-
-
+        </div>
+        <div class="col-6">
+            <RadzenCheckBox @bind-Value="@ShowAllTeeTimes" TValue="bool" Change="@(args => OnShowAllChanged())" />
+            <span>&nbsp;&nbsp;Include previous and deleted tee times.</span>
             <DisplayMsg ErrorMessage=@BaseErrorMessage InfoMessage=@BaseInfoMessage SecretErrorDetails=@BaseSecretErrorDetails></DisplayMsg>
+        </div>
+    </div>
+</div>
 
-        </td>
-    </tr>
 
-    <tr>
-        <td colspan="3">
+<div class="container">
 
-            @if (TTList == null)
-            {
-                <p><em>Loading...</em></p>
-            }
-            else
-            {
-
-                <MatAccordion Style="width:326px;background-color:pink;margin:0px;padding:0px" Multi="false">
+    @if (TTList == null)
+        {
+            <p><em>Loading...</em></p>
+        }
+        else
+        {
+            <MatAccordion Multi="false">
 
                     @foreach (var TT in TTList)
                     {
-                        <MatExpansionPanel style="width:325px;background-color:slategrey;margin:0px;margin-bottom:10px;padding:0px">
+                        <MatExpansionPanel style="padding-top: 10px;padding-bottom: 10px;margin-bottom:10px;margin-top:10px;" >
 
-                            <MatExpansionPanelSummary style="width: 326px; background-color: orange; margin:0px;padding:0px">
+                            <MatExpansionPanelSummary style="">
 
-                                <table border="1" width="100%" Style="background-color:darkseagreen;margin:0px;padding:0px">
+                                <table border="0" width="100%" Style="">
                                     <tr>
 
                                         <td Style="vertical-align:top;padding-right:1px" width="140px">
@@ -91,7 +66,7 @@
                                             </span>
                                         </td>
 
-                                        <td align="right" Style="vertical-align:top;padding-right:5px;margin-bottom:0px">
+                                        <td align="right" Style="">
                                             @TT.Owner <br />
 
                                             @if (TT.IsDeleted)
@@ -109,7 +84,7 @@
 
                             </MatExpansionPanelSummary>
 
-                            <MatExpansionPanelDetails style="background-color:#DCDCDC;width:328px;padding:2px">
+                            <MatExpansionPanelDetails style="">
 
                                 <table border="1" class="style62" style="width:100%">
 
@@ -360,9 +335,13 @@
                     }
 
                 </MatAccordion>
+        }
 
-            }
+</div>
 
+<table border="1">
+
+    <tr>
 
             @* dialogEditTT *@
             <MatDialog @bind-IsOpen="@dialogEditTTisOpen">
@@ -683,8 +662,6 @@
             }
 
         </MatDialog>
-
-        </td>
 
     </tr>
 

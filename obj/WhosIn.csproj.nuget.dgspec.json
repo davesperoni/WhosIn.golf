@@ -1,17 +1,17 @@
 {
   "format": 1,
   "restore": {
-    "c:\\Code\\WhosIn\\01\\WhosIn.golf\\WhosIn.csproj": {}
+    "C:\\Code\\WhosIn\\01\\WhosIn.golf\\WhosIn.csproj": {}
   },
   "projects": {
-    "c:\\Code\\WhosIn\\01\\WhosIn.golf\\WhosIn.csproj": {
+    "C:\\Code\\WhosIn\\01\\WhosIn.golf\\WhosIn.csproj": {
       "version": "1.0.0",
       "restore": {
-        "projectUniqueName": "c:\\Code\\WhosIn\\01\\WhosIn.golf\\WhosIn.csproj",
+        "projectUniqueName": "C:\\Code\\WhosIn\\01\\WhosIn.golf\\WhosIn.csproj",
         "projectName": "WhosIn",
-        "projectPath": "c:\\Code\\WhosIn\\01\\WhosIn.golf\\WhosIn.csproj",
+        "projectPath": "C:\\Code\\WhosIn\\01\\WhosIn.golf\\WhosIn.csproj",
         "packagesPath": "C:\\Users\\David\\.nuget\\packages\\",
-        "outputPath": "c:\\Code\\WhosIn\\01\\WhosIn.golf\\obj\\",
+        "outputPath": "C:\\Code\\WhosIn\\01\\WhosIn.golf\\obj\\",
         "projectStyle": "PackageReference",
         "fallbackFolders": [
           "C:\\Program Files\\dotnet\\sdk\\NuGetFallbackFolder"
