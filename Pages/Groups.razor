@@ -1,0 +1,171 @@
+﻿@inherits GroupsCode
+@page "/Groups"
+
+
+<h3>Groups</h3>
+<DisplayMsg ErrorMessage=@BaseErrorMessage InfoMessage=@BaseInfoMessage SecretErrorDetails=@BaseSecretErrorDetails></DisplayMsg>
+
+@if (GroupList == null)
+{
+    <p><em>Loading...</em></p>
+}
+else
+{
+
+    <RadzenButton Click="@((args) => OpenAddDialog())" Text="New Group" Style="width: 150px" />
+
+
+
+    <table class="table">
+        <thead>
+            <tr>
+                <th>GroupName</th>
+                <th>GroupDescription</th>
+                <th>GroupPin</th>
+                <th>GroupActive</th>
+                <th>GroupIsDefault</th>
+                <th>Edit</th>
+                <th>Delete</th>
+            </tr>
+        </thead>
+        <tbody>
+            @foreach (var gItem in GroupList)
+            {
+                <tr>
+                    <td>@gItem.GroupName</td>
+                    <td>@gItem.GroupDescription</td>
+                    <td>@gItem.GroupPin</td>
+                    <td>@m.YesNo2(gItem.GroupActive)</td>
+                    <td>@m.YesNo2(gItem.GroupIsDefault)</td>
+                    <td>
+                        <MatButton Icon="edit" OnClick="@(e => { OpenEditDialog(gItem.GroupGUID); })"></MatButton>
+                    </td>
+                    <td>
+                        @if (!gItem.GroupShowAllGroups)
+                        {
+                            <MatButton Icon="delete" OnClick="@(e => { OpenDeleteDialog(gItem.GroupGUID); })"></MatButton>
+                        }
+
+
+                    </td>
+                </tr>
+            }
+        </tbody>
+    </table>
+}
+
+
+
+
+@* dialogEdit  *@
+<MatDialog @bind-IsOpen="@dialogEditIsOpen">
+
+    <EditForm Model=@gItem>
+
+
+        @if (ModalInAddMode)
+        {
+            <span>
+                Add new group
+            </span>
+        }
+        else
+        {
+            <span>
+                Edit group
+            </span>
+        }
+
+
+        <table border="0">
+
+            <tr>
+                <td width="30%">   </td>
+                <td width="70%">   </td>
+            </tr>
+
+            @*<tr>
+                <td align="right">GroupGUID:&nbsp;</td>
+                <td>
+                    <InputText @bind-Value="gItem.GroupGUID" class="form-control" Style="width:230px" />
+                </td>
+            </tr>*@
+
+            <tr>
+                <td align="right">GroupName:&nbsp;</td>
+                <td>
+                    <InputText @bind-Value="gItem.GroupName" class="form-control" Style="width:230px" />
+                </td>
+            </tr>
+
+            <tr>
+
+                <td align="right">GroupDescription:&nbsp;</td>
+                <td>
+                    <RadzenTextArea Rows="3" @bind-Value="gItem.GroupDescription" Style="width:230px;margin-top:8px" />
+                </td>
+
+            </tr>
+
+            <tr>
+                <td align="right">GroupPin:&nbsp;</td>
+                <td>
+                    <RadzenTextArea Rows="3" @bind-Value="gItem.GroupPin" Style="width:230px;margin-top:8px" />
+                </td>
+            </tr>
+
+            <tr>
+                <td align="right">
+                    <MatCheckbox @bind-Value="@gItem.GroupActive"></MatCheckbox>
+                </td>
+                <td align="left">GroupActive&nbsp;</td>
+            </tr>
+
+            <tr>
+                <td align="right">
+                    <MatCheckbox @bind-Value="@gItem.GroupIsDefault"></MatCheckbox>
+                </td>
+                <td align="left">GroupIsDefault&nbsp;</td>
+            </tr>
+
+            <tr>
+                <td colspan="2" Style="color:red" align="center">@gItem.ValidationFailMessage</td>
+            </tr>
+
+
+        </table>
+
+    </EditForm>
+
+    <MatDialogActions>
+        <MatButton Outlined="true" style="width:95px;height:35px;margin-left:10px;font-size:10pt;color:white;background-color:#f75c25" Icon="check" OnClick="@(e => { SaveEditDialog(); })">Save</MatButton>
+        <MatButton Outlined="true" style="width:95px;height:35px;margin-left:10px;font-size:10pt;color:white;background-color:#6182a1" Icon="close" OnClick="@(e => { CancelEditDialog(); })">Cancel</MatButton>
+    </MatDialogActions>
+
+</MatDialog>
+
+
+
+
+@* dialogDelete  *@
+<MatDialog @bind-IsOpen="@dialogDeleteIsOpen">
+
+    @*<MatDialogTitle>@gItem.GroupGUID</MatDialogTitle>*@
+    <MatDialogTitle>@gItem.GroupName</MatDialogTitle>
+
+    <MatDialogTitle>Delete this Group?</MatDialogTitle>
+
+    <table>
+        <tr>
+            <td Style="color:red" align="center">@gItem.ValidationFailMessage</td>
+        </tr>
+    </table>
+
+    <MatDialogActions>
+        <MatButton Outlined="true" style="width:95px;height:35px;margin-left:10px;font-size:10pt;color:white;background-color:#f75c25" Icon="check" OnClick="@(e => { SaveDeleteDialog(); })">Delete</MatButton>
+        <MatButton Outlined="true" style="width:95px;height:35px;margin-left:10px;font-size:10pt;color:white;background-color:#6182a1" Icon="close" OnClick="@(e => { CancelDeleteDialog(); })">Cancel</MatButton>
+    </MatDialogActions>
+
+</MatDialog>
+
+

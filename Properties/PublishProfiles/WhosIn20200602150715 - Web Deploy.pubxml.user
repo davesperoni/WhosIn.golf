@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!--
+This file is used by the publish/package process of your Web project. You can customize the behavior of this process
+by editing this MSBuild file. In order to learn more about this please visit https://go.microsoft.com/fwlink/?LinkID=208121. 
+-->
+<Project ToolsVersion="4.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <PropertyGroup>
+    <TimeStampOfAssociatedLegacyPublishXmlFile />
+    <EncryptedPassword>AQAAANCMnd8BFdERjHoAwE/Cl+sBAAAA2xU+PfkBLECBbQdY4OzIDAAAAAACAAAAAAAQZgAAAAEAACAAAAAgw5UQ2VZIzV+n9OMQEOO4de669cl+zyh96C2HVDsfSAAAAAAOgAAAAAIAACAAAABtcECFGrM3K251T2ES0XJhP72K5lAMktzLZnSB+6DP74AAAAC4Su9ye5JDZ3rwBasfLKHfG5XtfLcOovldBflLzjBEtYyylkKKtGnv+ctd37pzZ4I5tsRHMJbzcs1eza6+Gl4EdCgD1mLAaYJHB34SuYKZSWrEfa5ElXtI2F3DbHJjgRaBNSfBSQF6G3ljd6Zf7Wb1KNtoZnLnhyrZPxHcqdvySUAAAACOvwts2cnc4OaonGRhRmljtYmP8HTjUsXIi/vgw+iixw2jb4hBvSkZH5s1ZHByukh5dQAvRKsPqqsvxlHETBq7</EncryptedPassword>
+  </PropertyGroup>
+  <ItemGroup>
+    <DestinationConnectionStrings Include="DefaultConnection">
+      <Value>Data Source=tcp:whosin20200602150715dbserver.database.windows.net,1433%3bInitial Catalog=WhosIn20200602150715_db%3bUser Id=whosinAdmin%40whosin20200602150715dbserver%3bPassword=who2020B#</Value>
+    </DestinationConnectionStrings>
+  </ItemGroup>
+</Project>

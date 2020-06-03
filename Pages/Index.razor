@@ -1,0 +1,691 @@
+﻿@page "/"
+@inherits IndexCode
+
+<div class = "container">
+    <div class = "row">
+        <div class = "col-xl-6">
+            <p class="pt-2">yo aha</p>
+        </div>
+        <div class = "col-xl-6">
+            <p>yo aha2asdf</p>
+        </div>
+    </div>
+</div>
+
+
+<table border="1">
+
+    @if (@GroupList.Count != 1)
+    {
+        <tr>
+            <td colspan="1" align="right">
+                Group:
+            </td>
+
+            <td colspan="2" align="left">
+                <RadzenDropDown Style="margin-left:3px;width:120px" TValue="string" @bind-Value="@GroupGUIDSelectedMain" Data="@GroupList" TextProperty="GroupName" ValueProperty="GroupGUID" Change="@DropDownChanged" />
+            </td>
+        </tr>
+    }
+
+
+    <tr>
+        <td colspan="2" align="center">
+            <h3>
+                @if (NumberOfTTs == 1)
+                {
+                    <span>1 Tee Time </span>
+                }
+                else
+                {
+                    <span>@NumberOfTTs.ToString() Tee Times</span>
+                }
+            </h3>
+        </td>
+
+
+        <td Style="padding-right:10px" align="right">
+            <MatButton style="font-family:Tahoma;font-size:10pt" OnClick="@(e => { GoToAddNew(); })">New Tee Time</MatButton>
+        </td>
+    </tr>
+
+    <tr>
+        <td colspan="3" align="center">
+
+
+            <span Style="font-family:Tahoma;font-size:10pt">
+                <RadzenCheckBox @bind-Value="@ShowAllTeeTimes" TValue="bool" Change="@(args => OnShowAllChanged())" />
+                <span>&nbsp;&nbsp;Include previous and deleted tee times.</span>
+            </span>
+
+
+            <DisplayMsg ErrorMessage=@BaseErrorMessage InfoMessage=@BaseInfoMessage SecretErrorDetails=@BaseSecretErrorDetails></DisplayMsg>
+
+        </td>
+    </tr>
+
+    <tr>
+        <td colspan="3">
+
+            @if (TTList == null)
+            {
+                <p><em>Loading...</em></p>
+            }
+            else
+            {
+
+                <MatAccordion Style="width:326px;background-color:pink;margin:0px;padding:0px" Multi="false">
+
+                    @foreach (var TT in TTList)
+                    {
+                        <MatExpansionPanel style="width:325px;background-color:slategrey;margin:0px;margin-bottom:10px;padding:0px">
+
+                            <MatExpansionPanelSummary style="width: 326px; background-color: orange; margin:0px;padding:0px">
+
+                                <table border="1" width="100%" Style="background-color:darkseagreen;margin:0px;padding:0px">
+                                    <tr>
+
+                                        <td Style="vertical-align:top;padding-right:1px" width="140px">
+                                            <span>
+                                                @TT.TTDateFormated  <br /> @TT.TTTimeFormated
+                                            </span>
+                                        </td>
+
+                                        <td align="right" Style="vertical-align:top;padding-right:5px;margin-bottom:0px">
+                                            @TT.Owner <br />
+
+                                            @if (TT.IsDeleted)
+                                            {
+                                                <span class="label3 danger">Deleted</span>
+                                            }
+                                            else
+                                            {
+                                                @TT.SpotsAvailable
+                                            }
+
+                                        </td>
+                                    </tr>
+                                </table>
+
+                            </MatExpansionPanelSummary>
+
+                            <MatExpansionPanelDetails style="background-color:#DCDCDC;width:328px;padding:2px">
+
+                                <table border="1" class="style62" style="width:100%">
+
+                                    <tr>
+                                        <td width="30%"></td>
+                                        <td width="45%"></td>
+                                        <td width="25%"></td>
+                                    </tr>
+
+
+                                    <tr>
+                                        <td colspan="3">
+
+                                            <table border="1" width="100%" class="style62" stxxxxyle="background-color:darkkhaki">
+
+                                                <tr>
+                                                    <td width="10%"></td>
+                                                    <td width="20%"></td>
+                                                    <td width="20%"></td>
+                                                    <td width="20%"></td>
+                                                    <td width="30%"></td>
+                                                </tr>
+
+                                                <tr>
+                                                    <td colspan="5" align="center">   @TT.TTDateFormated&nbsp;&nbsp;@TT.TTTimeFormated &nbsp;&nbsp;&nbsp(@TT.DaysFromNow)</td>
+                                                </tr>
+
+                                                <tr>
+                                                    <td colspan="4" align="center">
+                                                        @TT.Location
+                                                    </td>
+
+                                                    <td colspan="1" align="left">
+                                                        <RadzenMenu Click="@(args => EditMenuClicked(args, TT.TTGUID))" class="style62" style="background-color:#DCDCDC;width:10px">
+                                                            <ChildContent>
+                                                                <RadzenMenuItem Text="" Icon="line_weight">
+                                                                    <RadzenMenuItem Text="Edit"></RadzenMenuItem>
+                                                                    <RadzenMenuItem Text="Audit Log"></RadzenMenuItem>
+                                                                    @if (TT.IsDeleted)
+                                                                    {
+                                                                        <RadzenMenuItem Text="Undelete"></RadzenMenuItem>
+                                                                    }
+                                                                    else
+                                                                    {
+                                                                        <RadzenMenuItem Text="Delete"></RadzenMenuItem>
+                                                                    }
+
+                                                                </RadzenMenuItem>
+                                                            </ChildContent>
+                                                        </RadzenMenu>
+                                                    </td>
+
+                                                </tr>
+
+
+                                                <tr>
+
+                                                    <td colspan="5" align="center">
+                                                        <MatSubtitle2 class="demo-mat-card-clean-margin">
+                                                            @TT.TTDateFormated&nbsp;&nbsp;&nbsp;@TT.TTTimeFormated
+                                                            <br />@TT.DaysFromNow
+                                                            <br />@TT.Location
+                                                            <br />Owner: @TT.Owner
+                                                        </MatSubtitle2>
+                                                    </td>
+                                                   
+
+                                                </tr>
+
+
+
+                                                <tr>
+                                                    <td colspan="3" align="center">   Owner: @TT.Owner  </td>
+                                                    <td colspan="2" align="center">
+
+                                                        @if (TT.IsDeleted)
+                                                        {
+                                                            <span class="label3 danger">Deleted</span>
+                                                        }
+                                                        else
+                                                        {
+                                                            <span>Group: @TT.GroupName </span>
+                                                        }
+
+                                                    </td>
+                                                </tr>
+
+                                            </table>
+
+                                        </td>
+
+                                    </tr>
+
+                                    <tr>
+                                        <td colspan="3" style="padding-left:20px;padding-right:10px">
+                                            <span style="font-family:Tahoma;font-size:10pt">@TT.OwnerComment</span>
+                                        </td>
+                                    </tr>
+
+
+                                    @if (IsLoggedIn)
+                                    {
+                                        <tr>
+                                            <td colspan="3" style="padding-left:20px;padding-right:10px">
+                                                <span style="font-family:Tahoma;font-size:10pt">@TT.TTGUID</span>
+                                            </td>
+                                        </tr>
+                                    }
+
+                                    <tr>
+                                        <td style="padding-bottom:5px" colspan="3"></td>
+                                    </tr>
+
+
+                                    <tr>
+                                        <td colspan="1">
+
+                                            <button @onclick="@(e => OpenAddPlayerDialogMatButton(1, TT.TTGUID, TT.Player1, TT.Player1Comment, TT.LockPlayer1))"
+                                                    class="btn btn-primary" style="margin-left:4px;font-size:10pt;color:black;background-color:#FCF6CF">
+                                                Player 1
+                                            </button>
+                                        </td>
+
+                                        <td valign="middle" colspan="2" style="font-family:'Comic Sans MS';font-size:12pt">
+                                            @if (TT.LockPlayer1)
+                                            {
+                                                <span><MatChip Style="width:30px" LeadingIcon="lock"></MatChip></span>
+                                            }
+                                            @TT.Player1
+                                        </td>
+
+                                    </tr>
+
+
+                                    <tr>
+                                        <td style="padding-left: 50px; padding-bottom: 15px; font-family: Tahoma; font-size: 10pt" colspan="3"><span>@TT.Player1Comment</span></td>
+                                    </tr>
+
+                                    <tr>
+                                        <td colspan="1">
+                                            <button @onclick="@(e => OpenAddPlayerDialogMatButton(2, TT.TTGUID, TT.Player2, TT.Player2Comment, TT.LockPlayer2))" class="btn btn-primary" style="margin-left:4px;font-size:10pt;color:black;background-color:#FCF6CF">Player 2</button>
+                                        </td>
+
+                                        <td valign="middle" colspan="2" style="font-family:'Comic Sans MS';font-size:12pt">
+                                            @if (TT.LockPlayer2)
+                                            {
+                                                <span><MatChip Style="width:30px" LeadingIcon="lock"></MatChip></span>
+                                            }
+                                            @TT.Player2
+                                        </td>
+
+                                    </tr>
+
+                                    <tr>
+                                        <td style="padding-left:50px;padding-bottom:15px;font-family:Tahoma;font-size:10pt" colspan="3"><span>@TT.Player2Comment</span></td>
+                                    </tr>
+
+                                    <tr>
+                                        <td colspan="1">
+                                            <button @onclick="@(e => OpenAddPlayerDialogMatButton(3, TT.TTGUID, TT.Player3, TT.Player3Comment, TT.LockPlayer3))" class="btn btn-primary" style="margin-left:4px;font-size:10pt;color:black;background-color:#FCF6CF">Player 3</button>
+                                        </td>
+
+                                        <td valign="middle" colspan="2" style="font-family:'Comic Sans MS';font-size:12pt">
+                                            @if (TT.LockPlayer3)
+                                            {
+                                                <span><MatChip Style="width:30px" LeadingIcon="lock"></MatChip></span>
+                                            }
+                                            @TT.Player3
+                                        </td>
+
+                                    </tr>
+
+                                    <tr>
+                                        <td style="padding-left:50px;padding-bottom:15px;font-family:Tahoma;font-size:10pt" colspan="3"><span>@TT.Player3Comment</span></td>
+                                    </tr>
+
+                                    <tr>
+                                        <td colspan="1">
+                                            <button @onclick="@(e => OpenAddPlayerDialogMatButton(4, TT.TTGUID, TT.Player4, TT.Player4Comment, TT.LockPlayer4))" class="btn btn-primary" style="margin-left:4px;font-size:10pt;color:black;background-color:#FCF6CF">Player 4</button>
+                                        </td>
+
+                                        <td valign="middle" colspan="2" style="font-family:'Comic Sans MS';font-size:12pt">
+                                            @if (TT.LockPlayer4)
+                                            {
+                                                <span><MatChip Style="width:30px" LeadingIcon="lock"></MatChip></span>
+                                            }
+                                            @TT.Player4
+                                        </td>
+
+
+                                    </tr>
+
+                                    <tr>
+                                        <td style="padding-left:50px;padding-bottom:15px;font-family:Tahoma;font-size:10pt" colspan="3"><span>@TT.Player4Comment</span></td>
+                                    </tr>
+
+
+
+                                    @if (!TT.HideMessages)
+                                    {
+                                        @*  ----------  Messages  ----------*@
+
+                                        <tr>
+                                            <td class="style64" Style="width:300px;padding-left:10px" valign="bottom" align="left" colspan="3"><span>Messages</span></td>
+                                        </tr>
+
+                                        <tr>
+                                            <td colspan="3">
+
+                                                <select @bind="ChatGUIDSelected" size="10" Style="font-family:'Arial Narrow Regular';font-size:10pt;width:320px;background-color:#bfd8d9">
+
+                                                    @foreach (var chat in TT.ChatList)
+                                                    {
+                                                        <option value="@chat.ChatGUID">@chat.DisplayLine</option>
+                                                    }
+
+                                                </select>
+                                            </td>
+                                        </tr>
+
+                                        <tr>
+                                            <td valign="top" colspan="3">
+
+                                                @if (TT.LockMessages)
+                                                {
+                                                    <MatChip Style="width:30px" LeadingIcon="lock"></MatChip>
+
+                                                }
+                                                else
+                                                {
+                                                    <MatIconButton Icon="insert_comment" OnClick="@(_ => OpenDialogAddChat(TT.TTGUID))"></MatIconButton>
+                                                    <MatIconButton Icon="delete" OnClick="@(_ => OpenDialogDeleteChat())"></MatIconButton>
+                                                }
+
+                                            </td>
+                                        </tr>
+
+                                    }
+
+
+
+                                </table>
+
+
+                            </MatExpansionPanelDetails>
+
+                        </MatExpansionPanel>
+                    }
+
+                </MatAccordion>
+
+            }
+
+
+            @* dialogEditTT *@
+            <MatDialog @bind-IsOpen="@dialogEditTTisOpen">
+
+                <EditForm Model=@TTDialog>
+
+                    <table border="1">
+
+                        <tr>
+                            <td width="30%">   </td>
+                            <td width="70%">   </td>
+                        </tr>
+
+                        <tr>
+                            <td align="right">Group:&nbsp;</td>
+                            <td>
+                                <InputSelect @bind-Value="GroupGUIDSelectedDialog" Style="width:230px;padding-bottom:8px;margin-bottom:3px">
+
+                                    @foreach (var gr in GroupList)
+                                    {
+                                        if (!gr.GroupShowAllGroups)
+                                        {
+                                            if (gr.GroupGUID == GroupGUIDSelectedDialog)
+                                            {
+                                                <option selected="selected" value=@gr.GroupGUID>@gr.GroupName</option>
+                                            }
+                                            else
+                                            {
+                                                <option value=@gr.GroupGUID>@gr.GroupName</option>
+                                            }
+                                        }
+
+                                    }
+                                </InputSelect>
+                            </td>
+                        </tr>
+
+                        <tr>
+                            <td align="right">Owner:&nbsp;</td>
+                            <td>
+                                <InputText @bind-Value="TTDialog.Owner" class="form-control" Style="width:230px" />
+                            </td>
+                        </tr>
+
+                        <tr>
+                            <td align="right">Location:&nbsp;</td>
+                            <td>
+                                <InputText @bind-Value="TTDialog.Location" class="form-control" Style="width:230px" />
+                            </td>
+                        </tr>
+
+                        <tr>
+                            <td colspan="2">
+                                <RadzenDatePicker Style="width:125px" @bind-Value="TTDialog.TTDate" DateFormat="d" /> Date
+                            </td>
+                        </tr>
+
+                        <tr>
+                            <td colspan="2">
+                                <RadzenDatePicker Style="width:125px" @bind-Value="TTDialog.TTTime" ShowTime="true" TimeOnly="true" HourFormat="12" DateFormat="h:mm tt" /> Time
+                            </td>
+                        </tr>
+
+                        <tr>
+
+                            <td align="right">Comment:&nbsp;</td>
+                            <td>
+                                <RadzenTextArea Rows="3" @bind-Value="TTDialog.OwnerComment" Style="width:230px;margin-top:8px" />
+                            </td>
+
+                        </tr>
+
+                        <tr>
+                            <td align="right">
+                                <MatCheckbox @bind-Value="@TTDialog.LockPlayer1"></MatCheckbox>
+                            </td>
+                            <td align="left">Lock Player 1&nbsp;</td>
+                        </tr>
+
+                        <tr>
+                            <td align="right">
+                                <MatCheckbox @bind-Value="@TTDialog.LockPlayer2"></MatCheckbox>
+                            </td>
+                            <td align="left">Lock Player 2&nbsp;</td>
+                        </tr>
+
+                        <tr>
+                            <td align="right">
+                                <MatCheckbox @bind-Value="@TTDialog.LockPlayer3"></MatCheckbox>
+                            </td>
+                            <td align="left">Lock Player 3&nbsp;</td>
+                        </tr>
+
+                        <tr>
+                            <td align="right">
+                                <MatCheckbox @bind-Value="@TTDialog.LockPlayer4"></MatCheckbox>
+                            </td>
+                            <td align="left">Lock Player 4&nbsp;</td>
+                        </tr>
+
+
+                        <tr>
+                            <td align="right">
+                                <MatCheckbox @bind-Value="@TTDialog.HideMessages"></MatCheckbox>
+                            </td>
+                            <td align="left">Hide Messages&nbsp;</td>
+                        </tr>
+
+                        <tr>
+                            <td align="right">
+                                <MatCheckbox @bind-Value="@TTDialog.LockMessages"></MatCheckbox>
+                            </td>
+                            <td align="left">Lock Messages:&nbsp;</td>
+                        </tr>
+
+                        <tr>
+                            <td align="right">Pin number:&nbsp;</td>
+                            <td>
+                                <InputText @bind-Value="TTDialog.PinNumberEntered" class="form-control" Style="width:100px" />
+                            </td>
+                        </tr>
+
+                        <tr>
+                            <td colspan="2" Style="color:red" align="center">@TTDialog.ValidationFailMessage</td>
+                        </tr>
+                    </table>
+
+                </EditForm>
+
+                <MatDialogActions>
+                    <MatButton Outlined="true" style="width:95px;height:35px;margin-left:10px;font-size:10pt;color:white;background-color:#f75c25" Icon="check" OnClick="@(e => { SaveEditDialog(); })">Save</MatButton>
+                    <MatButton Outlined="true" style="width:95px;height:35px;margin-left:10px;font-size:10pt;color:white;background-color:#6182a1" Icon="close" OnClick="@(e => { CancelEditDialog(); })">Cancel</MatButton>
+                </MatDialogActions>
+
+            </MatDialog>
+
+
+            @* dialogAddPlayer *@
+            <MatDialog @bind-IsOpen="@dialogAddPlayerIsOpen">
+
+                <MatDialogTitle>@TTDialog.TTGUID</MatDialogTitle>
+                <MatDialogTitle>@TTDialog.PlayerNumberBeingEdited</MatDialogTitle>
+
+                <MatDialogContent>
+                    <p>Name:</p>
+                    <MatTextField @bind-Value="@TTDialog.PlayerNameBeingEdited"></MatTextField>
+                    <p>Comment:</p>
+                    <MatTextField @bind-Value="@TTDialog.PlayerCommentBeingEdited"></MatTextField>
+                </MatDialogContent>
+
+                <MatDialogActions>
+                    <MatButton OnClick="@(e => { dialogAddPlayerIsOpen = false; })">Cancel</MatButton>
+                    <RadzenButton Click="@((args) => SaveAddPlayerDialog())" Text="Save" Style="margin-bottom: 20px; width: 150px" />
+                </MatDialogActions>
+
+            </MatDialog>
+
+
+            @* dialogAddMessage*@
+            <MatDialog @bind-IsOpen="@dialogAddChatIsOpen">
+
+                <table>
+
+
+                    <tr>
+                        <td width="2%">
+                        </td>
+                        <td align="center" width="96%">Add message</td>
+                        <td width="2%">
+                        </td>
+                    </tr>
+
+                    <tr>
+                        <td width="2%">Message:</td>
+                        <td align="center" width="96%"> <MatTextField @bind-Value="@chatItem.Message"></MatTextField> </td>
+                        <td width="2%"></td>
+                    </tr>
+
+                    <tr>
+                        <td width="2%">Your initials:</td>
+                        <td align="center" width="96%"> <MatTextField @bind-Value="@chatItem.Initials"></MatTextField> </td>
+                        <td width="2%"></td>
+                    </tr>
+
+                    @*<tr>
+                        <td width="2%"></td>
+                        <td align="center" width="96%"> <MatButton OnClick="@(e => { dialogAddChatIsOpen = false; })">Cancel</MatButton> </td>
+                        <td width="2%"></td>
+                    </tr>*@
+
+                    <tr>
+                        <td colspan="2" Style="color:red" align="center">@chatItem.ValidationFailMessage</td>
+                    </tr>
+
+                    <tr>
+                        <td width="2%"></td>
+                        <MatButton Outlined="true" style="width:95px;height:35px;margin-left:10px;font-size:10pt;color:white;background-color:#f75c25" Icon="check" OnClick="@(e => { SaveDialogAddChat(); })">Save</MatButton>
+                        <MatButton Outlined="true" style="width:95px;height:35px;margin-left:10px;font-size:10pt;color:white;background-color:#6182a1" Icon="close" OnClick="@(e => { CancelDialogAddChat(); })">Cancel</MatButton>
+                        <td width="2%"></td>
+                    </tr>
+
+                </table>
+            </MatDialog>
+
+
+
+            @* dialogDeleteChat *@
+            <MatDialog @bind-IsOpen="@dialogDeleteChatisOpen">
+
+                <MatDialogTitle>Delete this Message?</MatDialogTitle>
+                <MatDialogTitle>@chatItem.DisplayLine</MatDialogTitle>
+
+                <MatDialogActions>
+                    <MatButton Outlined="true" style="width:95px;height:35px;margin-left:10px;font-size:10pt;color:white;background-color:#f75c25" Icon="check" OnClick="@(e => { SaveDialogDeleteChat(); })">Delete</MatButton>&nbsp;&nbsp;
+                    <MatButton Outlined="true" style="width:95px;height:35px;margin-left:10px;font-size:10pt;color:white;background-color:#6182a1" Icon="close" OnClick="@(e => { CancelDialogDeleteChat(); })">Cancel</MatButton>
+                </MatDialogActions>
+
+            </MatDialog>
+
+
+
+            @* dialogAuditLog *@
+            <MatDialog @bind-IsOpen="@dialogLogIsOpen">
+
+                <table border="1" width="350px">
+
+                    <tr>
+                        <td width="2%">
+                        </td>
+                        <td align="center" width="96%">
+                            TeeTime:&nbsp;&nbsp;&nbsp;&nbsp; @TTDialog.TTDateFormated&nbsp;&nbsp;@TTDialog.TTTimeFormated
+                        </td>
+                        <td width="2%">
+                        </td>
+                    </tr>
+
+                    <tr>
+
+                        <td>&nbsp;</td>
+                        <td>
+                            <select select size="20" class="TDCell827" style="width:350px">
+                                @foreach (var log in AuditLogList)
+                                {
+                                    <option>@log.DisplayLine1 &nbsp;&nbsp; @log.DisplayLine2  </option>
+                                }
+                            </select>
+                        </td>
+                        <td>&nbsp;</td>
+
+                    </tr>
+
+                    <tr>
+                        <td>
+                        </td>
+                        <td>
+                            <MatDialogActions>
+                                <RadzenButton Click="@((args) => CloseDialogAuditLog())" Text="Close" Style="margin-bottom: 20px; width: 100px" />
+                            </MatDialogActions>
+
+                        </td>
+                        <td>
+                        </td>
+                    </tr>
+
+                </table>
+
+            </MatDialog>
+
+
+
+
+            @* dialogDeleteTT *@
+        <MatDialog @bind-IsOpen="@dialogDeleteTTisOpen">
+
+            <MatDialogTitle>@TTDialog.TTDateFormated&nbsp;&nbsp;&nbsp;@TTDialog.TTTimeFormated</MatDialogTitle>
+
+             
+            @if (TTDialog.IsDeleted)
+            {
+                <MatDialogTitle>UnDelete this Tee Time?</MatDialogTitle>
+
+                <MatDialogContent>
+                    <p>Pin:</p>
+                    <MatTextField @bind-Value="@TTDialog.PinNumberEntered"></MatTextField>
+                </MatDialogContent>
+
+                <table>
+                    <tr>
+                        <td Style="color:red" align="center">@TTDialog.ValidationFailMessage</td>
+                    </tr>
+                </table>
+
+                <MatDialogActions>
+                    <MatButton Outlined="true" style="width:95px;height:35px;margin-left:10px;font-size:10pt;color:white;background-color:#f75c25" Icon="check" OnClick="@(e => { SaveDeleteDialog(true); })">UnDelete</MatButton>
+                    <MatButton Outlined="true" style="width:95px;height:35px;margin-left:10px;font-size:10pt;color:white;background-color:#6182a1" Icon="close" OnClick="@(e => { CancelDeleteDialog(); })">Cancel</MatButton>
+                </MatDialogActions>
+
+            }
+            else
+            {
+                <MatDialogTitle>Delete this Tee Time?</MatDialogTitle>
+
+                <MatDialogContent>
+                    <p>Pin:</p>
+                    <MatTextField @bind-Value="@TTDialog.PinNumberEntered"></MatTextField>
+                </MatDialogContent>
+
+                <table>
+                    <tr>
+                        <td Style="color:red" align="center">@TTDialog.ValidationFailMessage</td>
+                    </tr>
+                </table>
+
+                <MatDialogActions>
+                    <MatButton Outlined="true" style="width:95px;height:35px;margin-left:10px;font-size:10pt;color:white;background-color:#f75c25" Icon="check" OnClick="@(e => { SaveDeleteDialog(false); })">Delete</MatButton>
+                    <MatButton Outlined="true" style="width:95px;height:35px;margin-left:10px;font-size:10pt;color:white;background-color:#6182a1" Icon="close" OnClick="@(e => { CancelDeleteDialog(); })">Cancel</MatButton>
+                </MatDialogActions>
+            }
+
+        </MatDialog>
+
+        </td>
+
+    </tr>
+
+</table>
