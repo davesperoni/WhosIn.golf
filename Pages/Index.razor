@@ -6,7 +6,7 @@
         @* GROUP *@
     <div class="container">
         <div class="row">
-            <div class="col-6">
+            <div class="col-6 mt-3">
                 <RadzenDropDown Style="width=100%" TValue="string" @bind-Value="@GroupGUIDSelectedMain" Data="@GroupList" TextProperty="GroupName" ValueProperty="GroupGUID" Change="@DropDownChanged" />
             </div>
             <div class="col-6">
@@ -18,12 +18,10 @@
 
     @* NEW TEE TIME BUTTON *@
     <div class="container">
-        <div class="row">
-        </div>
 
     @* NUMBER OF TEE TIMES AND DELETED/PREVIOUS CHECKBOX *@
         <div class="row">
-            <div class="col-6">
+            <div class="col text-right float-right">
                 <h3>
                     @if (NumberOfTTs == 1)
                     {
@@ -35,17 +33,19 @@
                     }
                 </h3>
             </div>
-
+        </div>
+        
     @* ERROR MESSAGE *@
-            <div class="col-6">
-                <RadzenCheckBox @bind-Value="@ShowAllTeeTimes" TValue="bool" Change="@(args => OnShowAllChanged())" />
-                <span>&nbsp;&nbsp;Include previous and deleted tee times.</span>
+        <div class="row py-3">
+            <div class="col text-right">
+                 <span class="pr-2">&nbsp;&nbsp;Include previous and deleted tee times.</span>
+                <RadzenCheckBox class="float-right text-right" @bind-Value="@ShowAllTeeTimes" TValue="bool" Change="@(args => OnShowAllChanged())" />
                 <DisplayMsg ErrorMessage=@BaseErrorMessage InfoMessage=@BaseInfoMessage SecretErrorDetails=@BaseSecretErrorDetails></DisplayMsg>
             </div>
         </div>
     </div>
 
-
+@* TEE TIME CARDS *@
 <div class="container">
 
     @if (TTList == null)
@@ -65,14 +65,49 @@
                                 <table border="0" width="100%" Style="">
                                     <tr>
 
-                                        <td Style="vertical-align:top;padding-right:1px" width="140px">
+                                        <div class="row">
+                                            
+                                            <div class="col-6">
+                                               
+                                                @TT.Owner 
+                                                    
+                                                <div class="row">
+                                                       
+                                                     @TT.TTDateFormated <p>, 	&nbsp;</p> @TT.TTTimeFormated
+                                                    
+                                                </div>
+                                                <div class="row">
+                                                       
+                                                     @TT.Location
+
+                                                </div>
+                                            </div>
+
+                                            <div class="col-6 text-center">
+
+
+                                            @if (TT.IsDeleted)
+                                            {
+                                                <span class="label3 danger">Deleted</span>
+                                            }
+                                            else
+                                            {
+                                                @TT.SpotsAvailable
+                                            }
+                                            </div>
+
+                                        </div>
+                                   
+
+                                        @* <td Style="vertical-align:top;padding-right:1px" width="140px">
                                             <span>
                                                 @TT.TTDateFormated  <br /> @TT.TTTimeFormated
                                             </span>
                                         </td>
 
                                         <td align="right" Style="">
-                                            @TT.Owner <br />
+                                            
+                                            <br />
 
                                             @if (TT.IsDeleted)
                                             {
@@ -83,7 +118,7 @@
                                                 @TT.SpotsAvailable
                                             }
 
-                                        </td>
+                                        </td> *@
                                     </tr>
                                 </table>
 

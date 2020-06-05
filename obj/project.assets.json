@@ -6386,11 +6386,11 @@
   "project": {
     "version": "1.0.0",
     "restore": {
-      "projectUniqueName": "c:\\Code\\WhosIn\\01\\WhosIn.golf\\WhosIn.csproj",
+      "projectUniqueName": "C:\\aa_Projects\\WhosIn\\01\\WhosIn.golf\\WhosIn.csproj",
       "projectName": "WhosIn",
-      "projectPath": "c:\\Code\\WhosIn\\01\\WhosIn.golf\\WhosIn.csproj",
+      "projectPath": "C:\\aa_Projects\\WhosIn\\01\\WhosIn.golf\\WhosIn.csproj",
       "packagesPath": "C:\\Users\\David\\.nuget\\packages\\",
-      "outputPath": "c:\\Code\\WhosIn\\01\\WhosIn.golf\\obj\\",
+      "outputPath": "C:\\aa_Projects\\WhosIn\\01\\WhosIn.golf\\obj\\",
       "projectStyle": "PackageReference",
       "fallbackFolders": [
         "C:\\Program Files\\dotnet\\sdk\\NuGetFallbackFolder"
